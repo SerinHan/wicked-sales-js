@@ -1,5 +1,5 @@
 import React from 'react';
 
 export default function Header() {
-  return <h1>$Wicked Sales</h1>;
+  return <header><h4>$Wicked Sales</h4></header>;
 }
