@@ -30,7 +30,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    const view = this.state.view.name === 'catalog' ? <ProductList setView={this.setView} /> : <ProductDetails />;
+    const view = this.state.view.name === 'catalog' ? <ProductList setView={this.setView} /> : <ProductDetails setView={this.setView}/>;
 
     return (this.state.isLoading
       ? <h1>Testing connections...</h1>

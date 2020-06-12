@@ -21,7 +21,7 @@ export default class ProductDetails extends React.Component {
       return (
         <div className='container card'>
           <div className='card-body'>
-            <a className='row text-muted'>&lt; Back to catalog</a>
+            <button className='row text-muted' onClick={() => this.props.setView('catalog', {})}>&lt; Back to catalog</button>
             <div className='row'>
               <img className='col-5 pl-0' src={product.image} />
               <div className='col-7'>
