@@ -10,3 +10,6 @@ header{
   height: 60%;
   object-fit: contain;
 }
+.cursor-pointer{
+  cursor: pointer;
+}
