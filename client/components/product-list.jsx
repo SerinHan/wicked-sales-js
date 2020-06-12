@@ -26,7 +26,7 @@ export default class ProductList extends React.Component {
   createRows() {
     const productCards = this.state.products.map(product => {
       return (
-        <ProductListItem className='col' key={product.productId} image={product.image} name={product.name} price={product.price} description={product.shortDescription}/>
+        <ProductListItem className='col' key={product.productId} setView={this.props.setView} productId={product.productId} image={product.image} name={product.name} price={product.price} description={product.shortDescription}/>
       );
     });
     const chunks = [];

@@ -8,8 +8,17 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       message: null,
-      isLoading: true
+      isLoading: true,
+      view: {
+        name: 'catalog',
+        params: {}
+      }
     };
+    this.setView = this.setView.bind(this);
+  }
+
+  setView(name, params) {
+    this.setState({ view: { name, params } });
   }
 
   componentDidMount() {
@@ -27,7 +36,7 @@ export default class App extends React.Component {
         <div>
           <Header />
           <ProductDetails />
-          <ProductList />
+          <ProductList setView={this.setView}/>
         </div>
       ));
   }
