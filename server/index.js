@@ -47,7 +47,10 @@ app.get('/api/cart', (req, res, next) => {
 });
 
 app.post('/api/cart', (req, res, next) => {
-  res.json('Hello');
+  const productId = Number(req.body.productId);
+
+  if (!productId || productId < 1) return res.status(400).json({ error: 'productId must be a positive integer' });
+  return res.json(productId);
 });
 
 app.use('/api', (req, res, next) => {
