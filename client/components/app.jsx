@@ -3,7 +3,6 @@ import Header from './header.jsx';
 import ProductList from './product-list.jsx';
 import ProductDetails from './product-details.jsx';
 import CartSummary from './cart-summary.jsx';
-import CheckoutForm from './checkout-form.jsx';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -86,7 +85,6 @@ export default class App extends React.Component {
       : (
         <div>
           <Header count={this.state.cart.length} setView={this.setView} />
-          <CheckoutForm />
           {view}
         </div>
       ));

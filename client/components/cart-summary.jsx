@@ -25,8 +25,9 @@ export default function CartSummary(props) {
       <p className='mt-2 text-muted cursor-pointer' onClick={() => props.setView('catalog', {})}>&lt; Back to catalog</p>
       <h1>Cart</h1>
       {items}
-      <div>
+      <div className='d-flex justify-content-between align-items-center m-2'>
         <h2>Item Total: ${(totalPrice / 100).toFixed(2)}</h2>
+        <button className='btn btn-primary' type='button' onClick={() => props.setView('checkout', {})}>Checkout</button>
       </div>
     </div>
   );
