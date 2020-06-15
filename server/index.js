@@ -44,7 +44,24 @@ app.get('/api/products/:productId', (req, res, next) => {
 });
 
 app.get('/api/cart', (req, res, next) => {
-  res.json([]);
+  const sql = `
+    select "c"."cartItemId",
+           "c"."price",
+           "p"."productId",
+           "p"."image",
+           "p"."name",
+           "p"."shortDescription"
+      from "cartItems" as "c"
+      join "products" as "p" using ("productId")
+     where "c"."cartId" = $1;
+  `;
+
+  return (
+    req.session.cartId
+      ? db.query(sql, [req.session.cartId])
+        .then(response => res.json(response.rows))
+      : res.json([])
+  );
 });
 
 app.post('/api/cart', (req, res, next) => {
@@ -65,14 +82,55 @@ app.post('/api/cart', (req, res, next) => {
 
       const price = result.rows[0].price;
 
+      if (req.session.cartId) {
+        return (
+          db.query('insert into "carts" ("cartId", "createdAt") values (default, default) returning "cartId"')
+            .then(result => ({ price, cartId: req.session.cartId }))
+            .catch(err => next(err))
+        );
+      }
+
       return (
         db.query('insert into "carts" ("cartId", "createdAt") values (default, default) returning "cartId"')
-          .then(result => res.json({ price, cartId: result.rows[0].cartId }))
+          .then(result => ({ price, cartId: result.rows[0].cartId }))
           .catch(err => next(err))
       );
     })
-    .then()
-    .then()
+    .then(result => {
+      req.session.cartId = result.cartId;
+
+      const sql = `
+        insert into "cartItems" ("cartId", "productId", "price")
+        values ($1, $2, $3)
+        returning "cartItemId";
+      `;
+
+      const values = [result.cartId, productId, result.price];
+
+      return (
+        db.query(sql, values)
+          .then(result => result.rows[0])
+      );
+    })
+    .then(result => {
+      const sql = `
+        select "c"."cartItemId",
+               "c"."price",
+               "p"."productId",
+               "p"."image",
+               "p"."name",
+               "p"."shortDescription"
+          from "cartItems" as "c"
+          join "products" as "p" using ("productId")
+         where "c"."cartItemId" = $1
+      `;
+      const values = [result.cartItemId];
+
+      return (
+        db.query(sql, values)
+          .then(result => res.status(201).json(result.rows[0]))
+      );
+    })
     .catch(err => next(err));
 
 });
