@@ -3,6 +3,7 @@ import Header from './header.jsx';
 import ProductList from './product-list.jsx';
 import ProductDetails from './product-details.jsx';
 import CartSummary from './cart-summary.jsx';
+import CheckoutForm from './checkout-form.jsx';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -48,6 +49,21 @@ export default class App extends React.Component {
       .catch(err => this.setState({ message: err.message }));
   }
 
+  placeOrder(info) {
+    fetch('/api/orders', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(info)
+    })
+      .then(res => res.json())
+      .then(data => {
+        this.setState({ cart: [], view: { name: 'catalog', params: {} } });
+      })
+      .catch(err => this.setState({ message: err.message }));
+  }
+
   componentDidMount() {
     fetch('/api/health-check')
       .then(res => res.json())
@@ -70,6 +86,7 @@ export default class App extends React.Component {
       : (
         <div>
           <Header count={this.state.cart.length} setView={this.setView} />
+          <CheckoutForm />
           {view}
         </div>
       ));
