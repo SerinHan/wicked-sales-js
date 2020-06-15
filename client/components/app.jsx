@@ -69,7 +69,7 @@ export default class App extends React.Component {
       ? <h1>Testing connections...</h1>
       : (
         <div>
-          <Header count={this.state.cart.length} />
+          <Header count={this.state.cart.length} setView={this.setView} />
           {view}
         </div>
       ));
