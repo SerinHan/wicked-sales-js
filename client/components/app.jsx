@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './header.jsx';
 import ProductList from './product-list.jsx';
 import ProductDetails from './product-details.jsx';
+import CartSummaryItem from './cart-summary-item.jsx';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -65,6 +66,7 @@ export default class App extends React.Component {
       : (
         <div>
           <Header count={this.state.cart.length} />
+          <CartSummaryItem item={{ image: '', name: 'ehlo', price: 1232, shortDescription: 'asdjfkldasjlkfadsjklj' }} />
           {view}
         </div>
       ));
