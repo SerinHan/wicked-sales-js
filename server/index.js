@@ -46,6 +46,10 @@ app.get('/api/cart', (req, res, next) => {
   res.json([]);
 });
 
+app.post('/api/cart', (req, res, next) => {
+  res.json('Hello');
+});
+
 app.use('/api', (req, res, next) => {
   next(new ClientError(`cannot ${req.method} ${req.originalUrl}`, 404));
 });
