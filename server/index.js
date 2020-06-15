@@ -78,7 +78,7 @@ app.post('/api/cart', (req, res, next) => {
 
   db.query(sql, values)
     .then(result => {
-      if (result.rows.length <= 0) return next(new ClientError('Product not found', 404));
+      if (result.rows.length <= 0) throw new ClientError('Product not found', 404);
 
       const price = result.rows[0].price;
 
