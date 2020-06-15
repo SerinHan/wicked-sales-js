@@ -50,7 +50,23 @@ app.post('/api/cart', (req, res, next) => {
   const productId = Number(req.body.productId);
 
   if (!productId || productId < 1) return res.status(400).json({ error: 'productId must be a positive integer' });
-  return res.json(productId);
+
+  const sql = `
+    select "price"
+      from "products"
+     where "productId" = $1;
+  `;
+  const values = [productId];
+
+  db.query(sql, values)
+    .then(result => {
+      if (result.rows.length <= 0) return next(new ClientError('Product not found', 404));
+
+    })
+    .then()
+    .then()
+    .catch(err => next(err));
+
 });
 
 app.use('/api', (req, res, next) => {
