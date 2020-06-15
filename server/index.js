@@ -37,6 +37,7 @@ app.get('/api/products/:productId', (req, res, next) => {
   db.query(sql, values)
     .then(result => {
       if (result.rows.length <= 0) return next(new ClientError('Product not found', 404));
+
       return res.json(result.rows[0]);
     })
     .catch(err => next(err));
@@ -62,6 +63,13 @@ app.post('/api/cart', (req, res, next) => {
     .then(result => {
       if (result.rows.length <= 0) return next(new ClientError('Product not found', 404));
 
+      const price = result.rows[0].price;
+
+      return (
+        db.query('insert into "carts" ("cartId", "createdAt") values (default, default) returning "cartId"')
+          .then(result => res.json({ price, cartId: result.rows[0].cartId }))
+          .catch(err => next(err))
+      );
     })
     .then()
     .then()
