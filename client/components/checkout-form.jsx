@@ -18,6 +18,7 @@ export default class CheckoutForm extends React.Component {
   render() {
     return (
       <div className='container d-flex flex-column'>
+        <p className='mt-2 text-muted cursor-pointer' onClick={() => this.props.setView('catalog', {})}>&lt; Back to catalog</p>
         <h1>My Cart</h1>
         <p>Order Total: $</p>
         <label htmlFor='name'>
