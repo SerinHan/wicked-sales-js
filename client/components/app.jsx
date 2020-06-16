@@ -19,6 +19,7 @@ export default class App extends React.Component {
     };
     this.setView = this.setView.bind(this);
     this.addToCart = this.addToCart.bind(this);
+    this.placeOrder = this.placeOrder.bind(this);
   }
 
   setView(name, params) {
@@ -50,12 +51,15 @@ export default class App extends React.Component {
   }
 
   placeOrder(info) {
+    if (!info.name) return console.error('Name is required');
+    if (!info.creditCard) return console.error('Credit Card is required');
+    if (!info.shippingAddress) return console.error('Shipping Address is required');
     fetch('/api/orders', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(info)
+      body: JSON.stringify({ name: info.name, creditCard: info.creditCard, shippingAddress: info.shippingAddress })
     })
       .then(res => res.json())
       .then(data => {
@@ -80,7 +84,7 @@ export default class App extends React.Component {
       : this.state.view.name === 'cart'
         ? <CartSummary cart={this.state.cart} setView={this.setView} />
         : this.state.view.name === 'checkout'
-          ? <CheckoutForm setView={this.setView} />
+          ? <CheckoutForm setView={this.setView} total={this.state.view.params.total} placeOrder={this.placeOrder} />
           : <ProductDetails setView={this.setView} productId={this.state.view.params.productId} addToCart={this.addToCart} />;
 
     return (this.state.isLoading

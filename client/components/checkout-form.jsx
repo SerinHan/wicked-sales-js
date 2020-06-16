@@ -18,9 +18,8 @@ export default class CheckoutForm extends React.Component {
   render() {
     return (
       <div className='container d-flex flex-column'>
-        <p className='mt-2 text-muted cursor-pointer' onClick={() => this.props.setView('catalog', {})}>&lt; Back to catalog</p>
         <h1>My Cart</h1>
-        <p>Order Total: $</p>
+        <p>Order Total: ${this.props.total}</p>
         <label htmlFor='name'>
           <p>Name</p>
           <input id='name' className='w-100' type='text' onChange={this.handleChange} />
@@ -35,6 +34,11 @@ export default class CheckoutForm extends React.Component {
           <p>Shipping Address</p>
           <textarea id='shippingAddress' className='w-100' rows='3' onChange={this.handleChange} />
         </label>
+
+        <div className='d-flex justify-content-between align-items-center'>
+          <p className='mt-2 text-muted cursor-pointer' onClick={() => this.props.setView('catalog', {})}>&lt; Continue shopping</p>
+          <button className='btn btn-primary' type="button" onClick={() => this.props.placeOrder({ name: this.state.name, creditCard: this.state.creditCard, shippingAddress: this.state.shippingAddress })}>Place Order</button>
+        </div>
       </div>
     );
   }
